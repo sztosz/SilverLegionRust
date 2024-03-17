@@ -7,6 +7,7 @@ use std::fs;
 #[derive(Debug, Serialize)]
 struct Soldier {
     name: String,
+    id: i64,
     missions: i64,
     kills: i64,
     stuns: i64,
@@ -63,6 +64,7 @@ fn main() {
                             Some(soldiers) => {
                                 for soldier in soldiers {
                                     let name = soldier.get("name").unwrap().as_str().unwrap();
+                                    let id = soldier.get("id").unwrap().as_i64().unwrap();
                                     let missions =
                                         soldier.get("missions").unwrap().as_i64().unwrap();
                                     let kills = soldier.get("kills").unwrap().as_i64().unwrap();
@@ -102,6 +104,7 @@ fn main() {
 
                                     let soldier_stats = Soldier {
                                         name: name.to_owned(),
+                                        id: id,
                                         missions: missions,
                                         kills: kills,
                                         stuns: stuns,
@@ -133,7 +136,10 @@ fn main() {
         None => println!("No bases found in save file"),
     };
 
+    soldiers_data.sort_by(|a, b| a.id.cmp(&b.id));
+
     let mut wtr = csv::Writer::from_path(out_filename).unwrap();
+    
 
     for record in soldiers_data {
         wtr.serialize(record).unwrap();
