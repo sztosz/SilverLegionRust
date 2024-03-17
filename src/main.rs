@@ -7,7 +7,6 @@ use std::fs;
 #[derive(Debug, Serialize)]
 struct Soldier {
     name: String,
-    type_: String,
     missions: i64,
     kills: i64,
     stuns: i64,
@@ -64,7 +63,6 @@ fn main() {
                             Some(soldiers) => {
                                 for soldier in soldiers {
                                     let name = soldier.get("name").unwrap().as_str().unwrap();
-                                    let type_ = soldier.get("type").unwrap().as_str().unwrap();
                                     let missions =
                                         soldier.get("missions").unwrap().as_i64().unwrap();
                                     let kills = soldier.get("kills").unwrap().as_i64().unwrap();
@@ -104,7 +102,6 @@ fn main() {
 
                                     let soldier_stats = Soldier {
                                         name: name.to_owned(),
-                                        type_: type_.to_owned(),
                                         missions: missions,
                                         kills: kills,
                                         stuns: stuns,
